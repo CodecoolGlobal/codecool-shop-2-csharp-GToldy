@@ -3,9 +3,10 @@
 }
 
 @model List<Codecool.CodecoolShop.Models.Product>
+<script src="~/js/category.js" defer></script>
 
 <div class="container categories">
-    <select>
+    <select id="select-category">
         <option value="0" selected>Nothing selected</option>
         @{
             var category = new HashSet<string>();
