@@ -5,7 +5,7 @@ const categorySelect = document.querySelector("#select-category");
 InIt()
 
 function InIt() {
-    GetProductsContent(1)
+    GetAllProducts()
     GetProductCategories()
     AddEventListenerToSelect()
 }
@@ -40,6 +40,11 @@ function GetDropdownMenuOptions(response) {
 async function GetProductCategories() {
     let response = await ApiGet(`/CategoryApi/GetProductCategories`)
     GetDropdownMenuOptions(response)
+}
+
+async function GetAllProducts() {
+    let response = await ApiGet(`/CategoryApi/GetAllProducts`)
+    PopulateContainer(response)
 }
 
 function PopulateContainer(response) {
