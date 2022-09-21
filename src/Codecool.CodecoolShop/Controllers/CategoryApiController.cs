@@ -27,6 +27,14 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [HttpGet]
+        public List<Product> GetAllProducts()
+        {
+            var response = productService.GetProductsForCategory();
+
+            return new List<Product>(response);
+        }
+
+        [HttpGet]
         public List<ProductCategory> GetProductCategories()
         {
             var response = productService.GetProductCategory();
