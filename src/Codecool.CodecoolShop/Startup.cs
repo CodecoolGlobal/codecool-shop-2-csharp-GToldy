@@ -105,6 +105,7 @@ namespace Codecool.CodecoolShop
             productDataStore.Add(new Product
             {
                 Name = "Foreplay in a row",
+                Image = "Foreplay in a row.jpg",
                 Players = "2-?",
                 DefaultPrice = 23.0m,
                 Currency = "USD",
@@ -115,6 +116,7 @@ namespace Codecool.CodecoolShop
             productDataStore.Add(new Product
             {
                 Name = "Cluedo",
+                Image = "Cluedo.jpg",
                 Players = "2-?",
                 DefaultPrice = 23.5m,
                 Currency = "USD",
@@ -125,6 +127,7 @@ namespace Codecool.CodecoolShop
             productDataStore.Add(new Product
             {
                 Name = "Codenames",
+                Image = "Codenames.jpg",
                 Players = "2-?",
                 DefaultPrice = 89.0m,
                 Currency = "USD",
