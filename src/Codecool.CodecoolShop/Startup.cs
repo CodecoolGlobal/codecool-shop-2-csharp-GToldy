@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Codecool.CodecoolShop.Daos;
 using Codecool.CodecoolShop.Daos.Implementations;
 using Codecool.CodecoolShop.Models;
+using Codecool.CodecoolShop.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +28,12 @@ namespace Codecool.CodecoolShop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var daoMemory = ProductDaoMemory.GetInstance();
+            var categoryDao = ProductCategoryDaoMemory.GetInstance();
+            services.AddSingleton<IProductDao>(daoMemory);
+            services.AddSingleton<IProductCategoryDao>(categoryDao);
+            
+            services.AddSingleton<ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
