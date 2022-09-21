@@ -4,6 +4,7 @@ namespace Codecool.CodecoolShop.Models
 {
     public class Product : BaseModel
     {
+        public string Players { get; set; }
         public string Currency { get; set; }
         public decimal DefaultPrice { get; set; }
         public ProductCategory ProductCategory { get; set; }
