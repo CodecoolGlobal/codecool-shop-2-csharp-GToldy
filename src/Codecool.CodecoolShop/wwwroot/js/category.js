@@ -1,9 +1,12 @@
 ﻿const productContent = document.querySelector("#product-cards");
+const categorySelect = document.querySelector("#select-category");
+
 
 InIt()
 
 function InIt() {
     GetProductsContent(1)
+    GetProductCategories()
     AddEventListenerToSelect()
 }
 
@@ -11,18 +14,32 @@ function InIt() {
 
 
 function AddEventListenerToSelect() {
-    const categorySelect = document.querySelector("#select-category");
     categorySelect.addEventListener('change', (event) => {
-        console.log(event.currentTarget.value);
-        GetProductsContent(1)
-        
+    GetProductsContent(event.currentTarget.value)
+    
     })
 }
 
 async function GetProductsContent(id) {
-    let response = await ApiGet(`/CategoryApi?id=${id}`);
+    let response = await ApiGet(`/CategoryApi/GetProducts?id=${id}`);
     console.log(response)
     PopulateContainer(response);
+}
+
+function GetDropdownMenuOptions(response) {
+    for (let i = 0; i < response.length; i++) {
+        console.log(response)
+        let option = document.createElement("option")
+        option.value = response[i].id
+        option.innerHTML = response[i].name
+        categorySelect.appendChild(option)
+
+    }
+}
+
+async function GetProductCategories() {
+    let response = await ApiGet(`/CategoryApi/GetProductCategories`)
+    GetDropdownMenuOptions(response)
 }
 
 function PopulateContainer(response) {
@@ -83,8 +100,8 @@ function PopulateContainer(response) {
         card.appendChild(cardBody)
 
         productContent.appendChild(card)
-        
 
+        
     }
 }
 

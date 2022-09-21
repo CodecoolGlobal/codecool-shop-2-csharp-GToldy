@@ -20,6 +20,11 @@ namespace Codecool.CodecoolShop.Services
             return this.productCategoryDao.Get(categoryId);
         }
 
+        public IEnumerable<ProductCategory> GetProductCategory()
+        {
+            return this.productCategoryDao.GetAll();
+        }
+
         public IEnumerable<Product> GetProductsForCategory(int categoryId)
         {
             ProductCategory category = this.productCategoryDao.Get(categoryId);

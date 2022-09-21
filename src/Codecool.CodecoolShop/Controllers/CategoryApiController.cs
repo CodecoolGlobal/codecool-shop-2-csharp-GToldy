@@ -6,7 +6,7 @@ using Codecool.CodecoolShop.Models;
 namespace Codecool.CodecoolShop.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class CategoryApiController : ControllerBase
     {
         private readonly ProductService productService;
@@ -19,11 +19,19 @@ namespace Codecool.CodecoolShop.Controllers
         
 
         [HttpGet]
-        public List<Product> Index(int id)
+        public List<Product> GetProducts(int id)
         {
             var response = productService.GetProductsForCategory(id);
             
             return new List<Product>(response) ;
+        }
+
+        [HttpGet]
+        public List<ProductCategory> GetProductCategories()
+        {
+            var response = productService.GetProductCategory();
+
+            return new List<ProductCategory>(response);
         }
     }
 }
