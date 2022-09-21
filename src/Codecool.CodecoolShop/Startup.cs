@@ -65,15 +65,73 @@ namespace Codecool.CodecoolShop
             IProductCategoryDao productCategoryDataStore = ProductCategoryDaoMemory.GetInstance();
             ISupplierDao supplierDataStore = SupplierDaoMemory.GetInstance();
 
-            Supplier amazon = new Supplier{Name = "Amazon", Description = "Digital content and services"};
+            // Suppliers
+            Supplier amazon = new Supplier
+            {
+                Name = "Amazon",
+                Description = "Digital content and services"
+            };
+            Supplier hasbro = new Supplier
+            {
+                Name = "Hasbro",
+                Description = "Provides games to all ages."
+            };
+
             supplierDataStore.Add(amazon);
-            Supplier lenovo = new Supplier{Name = "Lenovo", Description = "Computers"};
-            supplierDataStore.Add(lenovo);
-            ProductCategory tablet = new ProductCategory {Name = "Tablet", Department = "Hardware", Description = "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display." };
-            productCategoryDataStore.Add(tablet);
-            productDataStore.Add(new Product { Name = "Amazon Fire", DefaultPrice = 49.9m, Currency = "USD", Description = "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", ProductCategory = tablet, Supplier = amazon });
-            productDataStore.Add(new Product { Name = "Lenovo IdeaPad Miix 700", DefaultPrice = 479.0m, Currency = "USD", Description = "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", ProductCategory = tablet, Supplier = lenovo });
-            productDataStore.Add(new Product { Name = "Amazon Fire HD 8", DefaultPrice = 89.0m, Currency = "USD", Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", ProductCategory = tablet, Supplier = amazon });
+            supplierDataStore.Add(hasbro);
+
+            // Categories
+            ProductCategory adult = new ProductCategory
+            {
+                Name = "Adult",
+                Description = "A game played by adult players."
+            };
+            ProductCategory card = new ProductCategory
+            {
+                Name = "Card",
+                Description = "A game mainly or only played using cards."
+            };
+            ProductCategory board = new ProductCategory
+            {
+                Name = "Board",
+                Description = "A game including a board or mat, and moving parts."
+            };
+
+            productCategoryDataStore.Add(adult);
+            productCategoryDataStore.Add(card);
+            productCategoryDataStore.Add(board);
+
+            // Products
+            productDataStore.Add(new Product
+            {
+                Name = "Foreplay in a row",
+                Players = "2-?",
+                DefaultPrice = 23.0m,
+                Currency = "USD",
+                Description = "Yup",
+                ProductCategory = adult,
+                Supplier = amazon
+            });
+            productDataStore.Add(new Product
+            {
+                Name = "Cluedo",
+                Players = "2-?",
+                DefaultPrice = 23.5m,
+                Currency = "USD",
+                Description = "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.",
+                ProductCategory = board,
+                Supplier = hasbro
+            });
+            productDataStore.Add(new Product
+            {
+                Name = "Codenames",
+                Players = "2-?",
+                DefaultPrice = 89.0m,
+                Currency = "USD",
+                Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.",
+                ProductCategory = card,
+                Supplier = amazon
+            });
         }
     }
 }
