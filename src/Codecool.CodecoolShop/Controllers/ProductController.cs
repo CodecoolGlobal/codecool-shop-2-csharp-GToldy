@@ -20,15 +20,14 @@ namespace Codecool.CodecoolShop.Controllers
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
-            ProductService = new ProductService(
-                ProductDaoMemory.GetInstance(),
-                ProductCategoryDaoMemory.GetInstance());
+            //ProductService = new ProductService(
+            //    ProductDaoMemory.GetInstance(),
+            //    ProductCategoryDaoMemory.GetInstance());
         }
 
         public IActionResult Index()
         {
-            var products = ProductService.GetProductsForCategory(1);
-            return View(products.ToList());
+            return View();
         }
 
         public IActionResult Privacy()

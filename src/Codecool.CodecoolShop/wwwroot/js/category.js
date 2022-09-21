@@ -11,8 +11,7 @@ function AddEventListenerToSelect() {
     categorySelect.addEventListener('change', (event) => {
         console.log(event.currentTarget.value);
         ClearCardContainer(cardContent);
-        //ApiGet - fetch products - In memory api fetch needed
-        let response = ApiGet();
+        let response = ApiGet("/CategoryApi?id=1");
         PopulateContainer(response);
     })
 }
@@ -40,6 +39,12 @@ function PopulateContainer(response) {
         let category = document.createElement("p")
         let supplyer = document.createElement("p")
         let addToCartBtn = document.createElement("a")
+
+        cardName.innerHTML = `Product ${i}`
+        name.innerHTML = response[i].productCategory.name
+        description.innerHTML = response[i].productCategory.description
+        supplyer.innerHTML = response[i].supplyer
+        name.innerHTML = "Add to cart"
 
         cardBody.appendChild(cardName)
         cardBody.appendChild(name)
