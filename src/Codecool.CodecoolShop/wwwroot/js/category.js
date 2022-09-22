@@ -40,7 +40,7 @@ async function GetProductSuppliers() {
 }
 
 async function GetSupplierProductsContent(id) {
-    let response = await ApiGet(`/SupplierApi/GetSupplier?id=${id}`);
+    let response = await ApiGet(`/SupplierApi/GetProductBySupplier?id=${id}`);
     PopulateContainer(response);
 }
 

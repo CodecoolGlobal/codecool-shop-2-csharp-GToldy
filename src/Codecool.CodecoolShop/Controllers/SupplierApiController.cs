@@ -19,7 +19,7 @@ namespace Codecool.CodecoolShop.Controllers
 
 
         [HttpGet]
-        public List<Product> GetSupplier(int id)
+        public List<Product> GetProductBySupplier(int id)
         {
             var response = productService.GetProductsForSupplier(id);
 
@@ -27,9 +27,9 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [HttpGet]
-        public List<Product> GetAllProductsSupplier()
+        public List<Product> GetAllProducts()
         {
-            var response = productService.GetProductsForSupplier();
+            var response = productService.GetAllProducts();
 
             return new List<Product>(response);
         }
@@ -37,7 +37,7 @@ namespace Codecool.CodecoolShop.Controllers
         [HttpGet]
         public List<Supplier> GetProductSuppliers()
         {
-            var response = productService.GetProductSupplier();
+            var response = productService.GetAllSupplier();
 
             return new List<Supplier>(response);
         }
