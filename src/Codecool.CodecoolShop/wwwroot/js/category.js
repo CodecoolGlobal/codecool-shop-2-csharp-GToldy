@@ -1,5 +1,6 @@
 ﻿const productContent = document.querySelector("#product-cards");
 const categorySelect = document.querySelector("#select-category");
+const supplierSelect = document.querySelector("#select-supplier")
 
 
 InIt()
@@ -7,33 +8,60 @@ InIt()
 function InIt() {
     GetAllProducts()
     GetProductCategories()
-    AddEventListenerToSelect()
+    GetProductSuppliers()
+    AddEventListenerToCategorySelect()
+    AddEventListenerToSupplierSelect()
 }
 
 
-
-
-function AddEventListenerToSelect() {
-    categorySelect.addEventListener('change', (event) => {
+function AddEventListenerToSupplierSelect() {
+    supplierSelect.addEventListener('change', (event) => {
         if (event.currentTarget.value == 0) {
             GetAllProducts()
         } else {
-            GetProductsContent(event.currentTarget.value)
+            GetSupplierProductsContent(event.currentTarget.value)
         }
     })
 }
 
-async function GetProductsContent(id) {
+function GetSupplierDropdownMenuOptions(response) {
+    for (let i = 0; i < response.length; i++) {
+        console.log(response)
+        let option = document.createElement("option")
+        option.value = response[i].id
+        option.innerHTML = response[i].name
+        supplierSelect.appendChild(option)
+    }
+}
+
+async function GetProductSuppliers() {
+    let response = await ApiGet(`/SupplierApi/GetProductSuppliers`)
+    GetSupplierDropdownMenuOptions(response)
+}
+
+async function GetSupplierProductsContent(id) {
+    let response = await ApiGet(`/SupplierApi/GetSupplier?id=${id}`);
+    PopulateContainer(response);
+}
+
+function AddEventListenerToCategorySelect() {
+    categorySelect.addEventListener('change', (event) => {
+        if (event.currentTarget.value == 0) {
+            GetAllProducts()
+        } else {
+            GetProductsCategoryContent(event.currentTarget.value)
+        }
+    })
+}
+
+async function GetProductsCategoryContent(id) {
     let response = await ApiGet(`/CategoryApi/GetProducts?id=${id}`);
-    console.log(response)
     PopulateContainer(response);
 }
 
 
-
-function GetDropdownMenuOptions(response) {
+function GetCategoryDropdownMenuOptions(response) {
     for (let i = 0; i < response.length; i++) {
-        console.log(response)
         let option = document.createElement("option")
         option.value = response[i].id
         option.innerHTML = response[i].name
@@ -44,7 +72,7 @@ function GetDropdownMenuOptions(response) {
 
 async function GetProductCategories() {
     let response = await ApiGet(`/CategoryApi/GetProductCategories`)
-    GetDropdownMenuOptions(response)
+    GetCategoryDropdownMenuOptions(response)
 }
 
 async function GetAllProducts() {
@@ -75,10 +103,10 @@ function PopulateContainer(response) {
 
         card.classList.add("col-lg-3")
         card.classList.add("col-lg-3")
-        card.style = "display: inline-block; max-width: 350px; height: 350px;"
+        card.style = "display: inline-block; max-width: 350px; height: 350px"
 
         image.src = `img/${response[i].name}.jpg`
-        image.style = "height: 50%; width: 50%; align-self: center; padding-top: 10px;"
+        image.style = "height: 50%; width: 50%; align-self: center; padding-top: 10px"
 
         cardBody.classList.add("card-body")
 
@@ -110,8 +138,6 @@ function PopulateContainer(response) {
         card.appendChild(cardBody)
 
         productContent.appendChild(card)
-
-        
     }
 }
 
