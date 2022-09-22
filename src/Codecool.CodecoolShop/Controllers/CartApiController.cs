@@ -50,6 +50,25 @@ namespace Codecool.CodecoolShop.Controllers
             return _cart.Items;
         }
 
+        //Route: /api/cart/Delete/1
+        [HttpGet("{id}")]
+        public List<Item> Delete(int id)
+        {
+            var product = _productService.GetProductById(id);
+            var item = FindItemInCart(product);
+
+            if (item.Quantity > 1)
+            {
+                item.Quantity--;
+            }
+            else
+            {
+                _cart.Items.Remove(item);
+            }
+
+            return _cart.Items;
+        }
+
         private bool IsProductInCart(Product product)
         {
             var item = _cart.Items.Where(item => item.Product.Equals(product));
