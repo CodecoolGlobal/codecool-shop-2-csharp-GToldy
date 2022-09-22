@@ -15,8 +15,11 @@ function InIt() {
 
 function AddEventListenerToSelect() {
     categorySelect.addEventListener('change', (event) => {
-    GetProductsContent(event.currentTarget.value)
-    
+        if (event.currentTarget.value == 0) {
+            GetAllProducts()
+        } else {
+            GetProductsContent(event.currentTarget.value)
+        }
     })
 }
 
@@ -25,6 +28,8 @@ async function GetProductsContent(id) {
     console.log(response)
     PopulateContainer(response);
 }
+
+
 
 function GetDropdownMenuOptions(response) {
     for (let i = 0; i < response.length; i++) {
