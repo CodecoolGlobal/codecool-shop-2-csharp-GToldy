@@ -89,9 +89,21 @@ namespace Codecool.CodecoolShop
                 Name = "Hasbro",
                 Description = "Provides games to all ages."
             };
+            Supplier steam = new Supplier
+            {
+                Name = "Steam",
+                Description = "Wide variety of games can be found"
+            };
+            Supplier ubisoft = new Supplier
+            {
+                Name = "Ubisoft",
+                Description = "Wide variety of games can be found"
+            };
 
             supplierDataStore.Add(amazon);
             supplierDataStore.Add(hasbro);
+            supplierDataStore.Add(steam);
+            supplierDataStore.Add(ubisoft);
 
             // Categories
             ProductCategory adult = new ProductCategory
@@ -109,10 +121,16 @@ namespace Codecool.CodecoolShop
                 Name = "Board",
                 Description = "A game including a board or mat, and moving parts."
             };
+            ProductCategory pc = new ProductCategory
+            {
+                Name = "Pc game",
+                Description = "Game softvare"
+            };
 
             productCategoryDataStore.Add(adult);
             productCategoryDataStore.Add(card);
             productCategoryDataStore.Add(board);
+            productCategoryDataStore.Add(pc);
 
             // Products
             productDataStore.Add(new Product
@@ -147,6 +165,39 @@ namespace Codecool.CodecoolShop
                 Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.",
                 ProductCategory = card,
                 Supplier = amazon
+            });
+            productDataStore.Add(new Product
+            {
+                Name = "Phasmophobia",
+                Image = "Phasmaphobia.jpg",
+                Players = "1-4",
+                DefaultPrice = 43.0m,
+                Currency = "USD",
+                Description = "4 player online co-op psychological horror. Paranormal activity is on the rise and it’s up to you and your team to use all the ghost hunting equipment at your disposal in order to gather as much evidence as you can.",
+                ProductCategory = pc,
+                Supplier = steam
+            });
+            productDataStore.Add(new Product
+            {
+                Name = "Tom Clancy's Rainbow Six Siege",
+                Image = "Siege.jpg",
+                Players = "1-10",
+                DefaultPrice = 65.5m,
+                Currency = "USD",
+                Description = "Tom Clancy's Rainbow Six Siege is the latest installment of the acclaimed first-person shooter franchise developed by the renowned Ubisoft Montreal studio.",
+                ProductCategory = pc,
+                Supplier = ubisoft
+            });
+            productDataStore.Add(new Product
+            {
+                Name = "Civilisations IV",
+                Image = "Civilization.jpg",
+                Players = "1",
+                DefaultPrice = 89.0m,
+                Currency = "USD",
+                Description = "Turn-based strategy games, a genre in which players control an empire and explore (expand, exploit, and exterminate), by having the player attempt to lead a modest group of peoples from a base with initially scarce resources into a successful empire or civilization.",
+                ProductCategory = pc,
+                Supplier = steam
             });
         }
     }
