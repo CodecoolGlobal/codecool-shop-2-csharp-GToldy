@@ -21,6 +21,16 @@ namespace Codecool.CodecoolShop.Controllers
             _cart = cart;
         }
 
+        [HttpGet]
+        public List<Item> GetAll()
+        {
+            if (GetCartFromSession() is null)
+            {
+                SetCartToSession(_cart);
+            }
+            return _cart.Items;
+        }
+
         private Cart GetCartFromSession()
         {
             return HttpContext.Session.GetObjectFromJson<Cart>("cart");
