@@ -30,10 +30,11 @@ namespace Codecool.CodecoolShop
             services.AddControllersWithViews();
             var daoMemory = ProductDaoMemory.GetInstance();
             var categoryDao = ProductCategoryDaoMemory.GetInstance();
+            var supplierDao = SupplierDaoMemory.GetInstance();
             services.AddSingleton<IProductDao>(daoMemory);
             services.AddSingleton<IProductCategoryDao>(categoryDao);
-            
             services.AddSingleton<ProductService>();
+            services.AddSingleton<ISupplierDao>(supplierDao);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
