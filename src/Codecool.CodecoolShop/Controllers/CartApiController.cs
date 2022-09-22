@@ -31,6 +31,18 @@ namespace Codecool.CodecoolShop.Controllers
             return _cart.Items;
         }
 
+        private bool IsProductInCart(Product product)
+        {
+            var item = _cart.Items.Where(item => item.Product.Equals(product));
+            return item.Any();
+        }
+
+        private Item FindItemInCart(Product product)
+        {
+            var item = _cart.Items.Find(item => item.Product.Equals(product));
+            return item;
+        }
+
         private Cart GetCartFromSession()
         {
             return HttpContext.Session.GetObjectFromJson<Cart>("cart");
