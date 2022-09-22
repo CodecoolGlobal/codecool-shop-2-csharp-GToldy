@@ -31,6 +31,25 @@ namespace Codecool.CodecoolShop.Controllers
             return _cart.Items;
         }
 
+        //Route: /api/cart/Add/1
+        [HttpGet("{id}")]
+        public List<Item> Add(int id)
+        {
+            var product = _productService.GetProductById(id);
+
+            if (IsProductInCart(product))
+            {
+                var item = FindItemInCart(product);
+                item.Quantity++;
+            }
+            else
+            {
+                _cart.Items.Add(new Item { Product = product, Quantity = 1 });
+            }
+
+            return _cart.Items;
+        }
+
         private bool IsProductInCart(Product product)
         {
             var item = _cart.Items.Where(item => item.Product.Equals(product));
