@@ -1,6 +1,10 @@
-﻿const productContent = document.querySelector("#product-cards");
+﻿const modal = document.querySelector("#modal");
+const modalBody = document.querySelector("#modal__body");
+const modalHead = document.querySelector("#modal__head");
+const productContent = document.querySelector("#product-cards");
 const categorySelect = document.querySelector("#select-category");
-const supplierSelect = document.querySelector("#select-supplier")
+const supplierSelect = document.querySelector("#select-supplier");
+const continueButton = document.querySelector("#continue-shopping");
 
 
 InIt()
@@ -51,7 +55,12 @@ function AddEventListenerToCategorySelect() {
         } else {
             GetProductsCategoryContent(event.currentTarget.value)
         }
-    })
+    });
+
+    continueButton.addEventListener('click', () => {
+        modal.classList.toggle("hidden");
+        modal.classList.toggle("visible");
+    });
 }
 
 async function GetProductsCategoryContent(id) {
@@ -156,9 +165,6 @@ async function AddToCart(id) {
 }
 
 function PopulateModalBody(response) {
-    let modal = document.querySelector("#modal");
-    let modalBody = document.querySelector("#modal__body");
-    let modalHead = document.querySelector("#modal__head");
     modalBody.innerHTML = "";
     modalHead.innerHTML = "Shopping cart";
     for (let item of response) {
