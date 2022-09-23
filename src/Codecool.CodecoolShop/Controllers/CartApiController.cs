@@ -28,7 +28,7 @@ namespace Codecool.CodecoolShop.Controllers
             {
                 SetCartToSession(_cart);
             }
-            return _cart.Items;
+            return new List<Item>(_cart.Items);
         }
 
         //Route: /api/cart/Add/1
@@ -47,7 +47,7 @@ namespace Codecool.CodecoolShop.Controllers
                 _cart.Items.Add(new Item { Product = product, Quantity = 1 });
             }
 
-            return _cart.Items;
+            return new List<Item>(_cart.Items);
         }
 
         //Route: /api/cart/Delete/1
@@ -66,7 +66,7 @@ namespace Codecool.CodecoolShop.Controllers
                 _cart.Items.Remove(item);
             }
 
-            return _cart.Items;
+            return new List<Item>(_cart.Items);
         }
 
         private bool IsProductInCart(Product product)
