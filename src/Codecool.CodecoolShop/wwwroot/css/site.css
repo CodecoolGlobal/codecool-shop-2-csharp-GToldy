@@ -171,7 +171,8 @@ img {
   justify-content: space-evenly;
 }
 
-#modal__head {
+#modal__head,
+#cart__head {
   font-size: 2rem;
   font-weight: 900;
   padding: 1rem;
@@ -179,16 +180,15 @@ img {
   box-shadow: 0 0 10px black;
 }
 
-.modal__body-content {
-}
-
-#modal__body {
+#modal__body,
+#cart__body {
   width: 100%;
   height: 100%;
   overflow-y: auto
 }
 
-#modal__footer {
+#modal__footer,
+#cart__footer  {
   padding: 1rem;
   display: flex;
   justify-content: space-evenly;
@@ -196,7 +196,8 @@ img {
   box-shadow: 0 0 10px black;
 }
 
-.modal__card {
+.modal__card,
+.cart__card {
   display: flex;
   margin: 1rem;
   align-items: center;
@@ -204,19 +205,22 @@ img {
   box-shadow: 1px 1px 5px black;
 }
 
-.modal__card-image-box {
+.modal__card-image-box,
+.cart__card-image-box {
   width: 7rem;
   height: 7rem;
   padding: .5rem;
 }
 
-.modal__card-image {
+.modal__card-image,
+.cart__card-image {
   width: 100%;
   height: 100%;
   object-fit: scale-down;
 }
 
-.modal__card-details {
+.modal__card-details,
+.cart__card-details {
   width: 100%;
   padding: 1rem;
   display: flex;
@@ -224,28 +228,71 @@ img {
   justify-content: space-evenly;
 }
 
-.modal__card-name {
+.modal__card-name,
+.cart__card-name {
   font-size: 1.5rem;
   font-weight: bolder;
 }
 
-.modal__card-counting {
+.modal__card-counting,
+.cart__card-counting {
   display: flex;
   padding: .5rem 0;
   justify-content: space-between;
 }
 
-.modal__card-count-container {
-  width: 40%;
+.modal__card-count-container,
+.cart__card-count-container {
+  width: 60%;
   display: flex;
   justify-content: space-evenly;
 }
 
 .modal__card-quantity,
-.modal__card-price{
+.cart__card-quantity,
+.modal__card-price,
+.cart__card-price {
   width: 50%;
 }
 
-.modal__card-total {
+.modal__card-total,
+.cart__card-total {
   width: 20%;
+}
+
+/* PAYMENT PAGE */
+#payment-cart {
+  position: relative;
+  display: flex;
+  height: 70vh;
+}
+
+#personal-details {
+  width: 40%;
+}
+
+#shopping-cart {
+  margin: 0 2rem;
+  width: 80%;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  box-shadow: 0 0 10px black;
+}
+
+#cart__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.cart__card-count-container {
+  align-items: flex-end;
+}
+
+.delete-btn {
+  font-size: .7rem;
+  color: crimson;
+  cursor: pointer;
 }
