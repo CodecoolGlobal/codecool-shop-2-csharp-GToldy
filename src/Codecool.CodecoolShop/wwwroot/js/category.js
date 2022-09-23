@@ -1,5 +1,6 @@
-﻿let productContent;
-let categorySelect;
+﻿const productContent = document.querySelector("#product-cards");
+const categorySelect = document.querySelector("#select-category");
+const supplierSelect = document.querySelector("#select-supplier")
 
 
 InIt()
@@ -9,31 +10,59 @@ function InIt() {
     categorySelect = document.querySelector("#select-category");
     GetAllProducts()
     GetProductCategories()
-    AddEventListenerToSelect()
+    GetProductSuppliers()
+    AddEventListenerToCategorySelect()
+    AddEventListenerToSupplierSelect()
 }
 
 
-
-
-function AddEventListenerToSelect() {
-    categorySelect.addEventListener('change', (event) => {
+function AddEventListenerToSupplierSelect() {
+    supplierSelect.addEventListener('change', (event) => {
         if (event.currentTarget.value == 0) {
             GetAllProducts()
         } else {
-            GetProductsContent(event.currentTarget.value)
+            GetSupplierProductsContent(event.currentTarget.value)
         }
     })
 }
 
-async function GetProductsContent(id) {
+function GetSupplierDropdownMenuOptions(response) {
+    for (let i = 0; i < response.length; i++) {
+        console.log(response)
+        let option = document.createElement("option")
+        option.value = response[i].id
+        option.innerHTML = response[i].name
+        supplierSelect.appendChild(option)
+    }
+}
+
+async function GetProductSuppliers() {
+    let response = await ApiGet(`/SupplierApi/GetProductSuppliers`)
+    GetSupplierDropdownMenuOptions(response)
+}
+
+async function GetSupplierProductsContent(id) {
+    let response = await ApiGet(`/SupplierApi/GetProductBySupplier?id=${id}`);
+    PopulateContainer(response);
+}
+
+function AddEventListenerToCategorySelect() {
+    categorySelect.addEventListener('change', (event) => {
+        if (event.currentTarget.value == 0) {
+            GetAllProducts()
+        } else {
+            GetProductsCategoryContent(event.currentTarget.value)
+        }
+    })
+}
+
+async function GetProductsCategoryContent(id) {
     let response = await ApiGet(`/CategoryApi/GetProducts?id=${id}`);
-    //console.log(response)
     PopulateContainer(response);
 }
 
 
-
-function GetDropdownMenuOptions(response) {
+function GetCategoryDropdownMenuOptions(response) {
     for (let i = 0; i < response.length; i++) {
         let option = document.createElement("option")
         option.value = response[i].id
@@ -45,7 +74,7 @@ function GetDropdownMenuOptions(response) {
 
 async function GetProductCategories() {
     let response = await ApiGet(`/CategoryApi/GetProductCategories`)
-    GetDropdownMenuOptions(response)
+    GetCategoryDropdownMenuOptions(response)
 }
 
 async function GetAllProducts() {
@@ -120,8 +149,6 @@ function PopulateContainer(response) {
         card.appendChild(cardBody)
 
         productContent.appendChild(card)
-
-        
     }
 }
 

@@ -7,23 +7,23 @@ namespace Codecool.CodecoolShop.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class CategoryApiController : ControllerBase
+    public class SupplierApiController : ControllerBase
     {
         private readonly ProductService productService;
 
-        public CategoryApiController(ProductService productService)
+        public SupplierApiController(ProductService productService)
         {
             this.productService = productService;
         }
 
-        
+
 
         [HttpGet]
-        public List<Product> GetProducts(int id)
+        public List<Product> GetProductBySupplier(int id)
         {
-            var response = productService.GetAllProductsForCategory(id);
-            
-            return new List<Product>(response) ;
+            var response = productService.GetProductsForSupplier(id);
+
+            return new List<Product>(response);
         }
 
         [HttpGet]
@@ -35,11 +35,11 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [HttpGet]
-        public List<ProductCategory> GetProductCategories()
+        public List<Supplier> GetProductSuppliers()
         {
-            var response = productService.GetAllProductCategory();
+            var response = productService.GetAllSupplier();
 
-            return new List<ProductCategory>(response);
+            return new List<Supplier>(response);
         }
     }
 }
