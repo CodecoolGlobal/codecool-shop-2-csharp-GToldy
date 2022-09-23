@@ -6,6 +6,8 @@ const supplierSelect = document.querySelector("#select-supplier")
 InIt()
 
 function InIt() {
+    productContent = document.querySelector("#product-cards");
+    categorySelect = document.querySelector("#select-category");
     GetAllProducts()
     GetProductCategories()
     GetProductSuppliers()
@@ -84,64 +86,128 @@ function PopulateContainer(response) {
     productContent.innerHTML = "";
     for (let i = 0; i < response.length; i++) {
         let card = document.createElement("div")
-        let image = document.createElement("img")
-        let cardBody = document.createElement("div")
-        let cardName = document.createElement("h5")
-        let name = document.createElement("h5")
-        let description = document.createElement("p")
-        let category = document.createElement("p")
-        let supplier = document.createElement("p")
-        let price = document.createElement("p")
-        let addToCartBtn = document.createElement("a")
+        let imageContainer = document.createElement("div");
+        let image = document.createElement("img");
+        let cardBody = document.createElement("div");
+        let name = document.createElement("h5");
+        let description = document.createElement("p");
+        let category = document.createElement("p");
+        let supplier = document.createElement("p");
+        let price = document.createElement("p");
+        let addToCartBtn = document.createElement("a");
+        let cardDescription = document.createElement("div");
+        let productDetails = document.createElement("div");
 
-        cardName.innerHTML = `Product ${i+1}`
-        name.innerHTML = response[i].name
-        description.innerHTML = response[i].description
-        supplier.innerHTML = `Supplier: ${response[i].supplier.name}`
-        price.innerHTML = `Price: ${response[i].price}`
-        addToCartBtn.innerHTML = "Add to cart"
+        cardDescription.classList.add("card-description");
+        productDetails.classList.add("product-details");
 
-        card.classList.add("col-lg-3")
-        card.classList.add("col-lg-3")
-        card.style = "display: inline-block; max-width: 350px; height: 350px"
+        //cardName.innerHTML = `Product ${i + 1}`;
+        name.innerHTML = response[i].name;
+        description.innerHTML = response[i].description;
+        supplier.innerHTML = `Supplier: ${response[i].supplier.name}`;
+        category.innerHTML = `Category: ${response[i].productCategory.name}`;
+        price.innerHTML = `Price: ${response[i].price}`;
+        addToCartBtn.innerHTML = "Add to cart";
 
-        image.src = `img/${response[i].name}.jpg`
-        image.style = "height: 50%; width: 50%; align-self: center; padding-top: 10px"
+        card.classList.add("product-card");
+
+        imageContainer.classList.add("image-container");
+
+        image.src = `img/${response[i].image}`
+        imageContainer.appendChild(image);
 
         cardBody.classList.add("card-body")
 
-        cardName.classList.add("card-title")
-        cardName.classList.add("text-center")
+        name.classList.add("card-name")
 
-        name.classList.add("card-title")
+        description.classList.add("card-description")
 
-        description.classList.add("card-text")
+        category.classList.add("card-category")
 
-        category.classList.add("card-text")
-
-        price.classList.add("card-text")
-        price.classList.add("text-center")
+        price.classList.add("card-price")
 
         addToCartBtn.type = "button"
         addToCartBtn.style = "float:bottom"
         addToCartBtn.classList.add("btn")
         addToCartBtn.classList.add("btn-primary")
+        addToCartBtn.classList.add("add-to-cart")
+        addToCartBtn.dataset.productId = response[i].id
+        addToCartBtn.addEventListener('click', async event => {
+            let id = event.currentTarget.dataset.productId;
+            AddToCart(id)
+        })
 
-        cardBody.appendChild(cardName)
-        cardBody.appendChild(name)
-        cardBody.appendChild(description)
-        cardBody.appendChild(category)
-        cardBody.appendChild(supplier)
-        cardBody.appendChild(addToCartBtn)
+        cardDescription.appendChild(name)
+        cardDescription.appendChild(description)
+        productDetails.appendChild(category)
+        productDetails.appendChild(supplier)
+        cardBody.appendChild(cardDescription);
+        cardBody.appendChild(productDetails);
+        cardBody.appendChild(addToCartBtn);
 
-        card.appendChild(image)
+        card.appendChild(imageContainer)
         card.appendChild(cardBody)
 
         productContent.appendChild(card)
     }
 }
 
+async function AddToCart(id) {
+    let result = await ApiGet(`/api/cart/Add/${id}`);
+    PopulateModalBody(result);
+}
 
+function PopulateModalBody(response) {
+    let modal = document.querySelector("#modal");
+    let modalBody = document.querySelector("#modal__body");
+    let modalHead = document.querySelector("#modal__head");
+    modalBody.innerHTML = "";
+    modalHead.innerHTML = "Shopping cart";
+    for (let item of response) {
+        let bodyContent = document.createElement("div");
+        bodyContent.classList.add("modal__body-content");
+        let card = document.createElement("div");
+        card.classList.add("modal__card");
+        let imageBox = document.createElement("div");
+        imageBox.classList.add("modal__card-image-box");
+        let image = document.createElement("img");
+        image.classList.add("modal__card-image");
+        let details = document.createElement("div");
+        details.classList.add("modal__card-details");
+        let name = document.createElement("span");
+        name.classList.add("modal__card-name");
+        let counting = document.createElement("div");
+        counting.classList.add("modal__card-counting");
+        let countContainer = document.createElement("div");
+        countContainer.classList.add("modal__card-count-container");
+        let price = document.createElement("span");
+        price.classList.add("modal__card-price");
+        let quantity = document.createElement("span");
+        quantity.classList.add("modal__card-quantity");
+        let total = document.createElement("span");
+        total.classList.add("modal__card-total");
+
+        image.src = `img/${item.product.image}`;
+        name.innerHTML = item.product.name;
+        price.innerHTML = `Price: ${item.product.defaultPrice}`;
+        quantity.innerHTML = `Qty: ${item.quantity}`;
+        total.innerHTML = `Total: ${item.quantity * item.product.defaultPrice}`;
+
+        countContainer.appendChild(price);
+        countContainer.appendChild(quantity);
+        counting.appendChild(countContainer);
+        counting.appendChild(total);
+        details.appendChild(name);
+        details.appendChild(counting);
+        imageBox.appendChild(image);
+        card.appendChild(imageBox);
+        card.appendChild(details);
+        bodyContent.appendChild(card);
+        modalBody.appendChild(bodyContent);
+    }
+    modal.classList.toggle('hidden');
+    modal.classList.toggle('visible');
+}
 
 async function ApiGet(url) {
     let response = await fetch(url);
