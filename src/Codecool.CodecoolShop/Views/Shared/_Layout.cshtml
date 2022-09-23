@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Codecool.CodecoolShop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("Scripts", required: false)
 </head>
 <body>
     <header>
@@ -30,18 +31,9 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
-        <section id="modal">
-            <div id="modal__content"></div>
-            <div id="modal__head"></div>
-            <div id="modal__body"></div>
-            <div id="modal__footer">
-                <button type="button" id="continue-shopping">Continue shopping</button>
-                <button type="button" id="go-to-checkout">Go to checkout</button>
-            </div>
-        </section>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -52,6 +44,5 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
 </body>
 </html>
