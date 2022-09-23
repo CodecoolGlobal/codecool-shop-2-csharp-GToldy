@@ -6,8 +6,6 @@ const supplierSelect = document.querySelector("#select-supplier")
 InIt()
 
 function InIt() {
-    productContent = document.querySelector("#product-cards");
-    categorySelect = document.querySelector("#select-category");
     GetAllProducts()
     GetProductCategories()
     GetProductSuppliers()
