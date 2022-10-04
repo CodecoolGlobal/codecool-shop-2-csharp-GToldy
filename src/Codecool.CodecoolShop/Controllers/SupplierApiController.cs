@@ -13,6 +13,7 @@ namespace Codecool.CodecoolShop.Controllers
 
         public SupplierApiController(ProductService productService)
         {
+
             this.productService = productService;
         }
 
