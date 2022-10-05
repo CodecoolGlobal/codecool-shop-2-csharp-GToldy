@@ -1,7 +1,7 @@
-﻿using Codecool.CodecoolShop.Models;
-using Codecool.CodecoolShop.Daos;
+﻿using Codecool.CodecoolShop.Daos;
 using System.Configuration;
 using Microsoft.Data.SqlClient;
+using System;
 
 namespace Codecool.CodecoolShop.Managers
 {
@@ -24,11 +24,11 @@ namespace Codecool.CodecoolShop.Managers
         {
             if (!TestConnection())
             {
-
+                Console.WriteLine(Console.Error);
             }
+            Console.WriteLine("Connection estabilished");
         }
-
-
+        
         public bool TestConnection()
         {
             using (var connection = new SqlConnection(connectionString))
