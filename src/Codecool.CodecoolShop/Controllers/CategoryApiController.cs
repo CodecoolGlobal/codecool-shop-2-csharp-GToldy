@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Codecool.CodecoolShop.Models;
+using Codecool.CodecoolShop.Managers;
+
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -9,19 +11,19 @@ namespace Codecool.CodecoolShop.Controllers
     [Route("[controller]/[action]")]
     public class CategoryApiController : ControllerBase
     {
-        private readonly ProductService productService;
+        private readonly ProductDbManager _productDbManager;
 
-        public CategoryApiController(ProductService productService)
+        public CategoryApiController(ProductDbManager productDbManager)
         {
-            this.productService = productService;
+            _productDbManager = productDbManager;
         }
 
         
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public List<Product> GetProducts(int id)
         {
-            var response = productService.GetAllProductsForCategory(id);
+            var response = _productDbManager.GetAllProductsForCategory(id);
             
             return new List<Product>(response) ;
         }
@@ -29,7 +31,7 @@ namespace Codecool.CodecoolShop.Controllers
         [HttpGet]
         public List<Product> GetAllProducts()
         {
-            var response = productService.GetAllProducts();
+            var response = _productDbManager.GetAllProducts();
 
             return new List<Product>(response);
         }
@@ -37,7 +39,7 @@ namespace Codecool.CodecoolShop.Controllers
         [HttpGet]
         public List<ProductCategory> GetProductCategories()
         {
-            var response = productService.GetAllProductCategory();
+            var response = _productDbManager.GetAllProductCategory();
 
             return new List<ProductCategory>(response);
         }
