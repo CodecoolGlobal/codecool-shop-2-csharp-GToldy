@@ -18,7 +18,7 @@ async function GetShoppingCart() {
 }
 
 function PopulateCartBody(response) {
-    cartBody.innerHTML = "";
+    cartBody.innerHTML = " ";
     cartHead.innerHTML = "Shopping cart";
     for (let item of response) {
         let bodyContent = document.createElement("div");
