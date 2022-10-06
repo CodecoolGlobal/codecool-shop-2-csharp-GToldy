@@ -1,5 +1,6 @@
 ﻿using Codecool.CodecoolShop.Daos;
 using Codecool.CodecoolShop.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace Codecool.CodecoolShop.Managers
         private readonly IProductCategoryDbDao _productCategoryDbDao;
         private readonly ISupplierDbDao _supplierDbDao;
 
-        public ProductDbManager(IProductDbDao productDbDao, IProductCategoryDbDao productCategoryDbDao, ISupplierDbDao supplierDbDao)
+        public ProductDbManager(IProductDbDao productDbDao, IProductCategoryDbDao productCategoryDbDao, ISupplierDbDao supplierDbDao) : base()
         {
             _productDbDao = productDbDao;
             _productCategoryDbDao = productCategoryDbDao;
@@ -31,6 +32,28 @@ namespace Codecool.CodecoolShop.Managers
         public IEnumerable<Product> GetAllProducts()
         {
             return _productDbDao.GetAll();
+        }
+
+        public IEnumerable<Supplier> GetAllSupplier()
+        {
+            return _supplierDbDao.GetAll();
+        }
+
+        public IEnumerable<Product> GetProductsForSupplier(int id)
+        {
+            Supplier supplier = _supplierDbDao.Get(id);
+            return _productDbDao.GetBySupplier(supplier);
+        }
+
+        public IEnumerable<Product> GetAllProductsForCategory(int id)
+        {
+            ProductCategory category = _productCategoryDbDao.Get(id);
+            return _productDbDao.GetByProductCategory(category);
+        }
+
+        public IEnumerable<ProductCategory> GetAllProductCategory()
+        {
+            return _productCategoryDbDao.GetAll();
         }
     }
 }
