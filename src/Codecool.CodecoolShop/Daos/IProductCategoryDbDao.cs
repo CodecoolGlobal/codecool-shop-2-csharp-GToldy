@@ -2,10 +2,7 @@
 
 namespace Codecool.CodecoolShop.Daos
 {
-    public interface IProductCategoryDbDao
+    public interface IProductCategoryDbDao : IDbDao<ProductCategory>
     {
-        public void AddToDb(ProductCategory productCategory);
-
-
     }
 }

@@ -2,10 +2,7 @@
 
 namespace Codecool.CodecoolShop.Daos
 {
-    public interface ISupplierDbDao
+    public interface ISupplierDbDao : IDbDao<Supplier>
     {
-        public void AddToDb(Supplier supplier);
-
-
     }
 }
