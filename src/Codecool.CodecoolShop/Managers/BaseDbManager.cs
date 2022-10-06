@@ -7,17 +7,11 @@ namespace Codecool.CodecoolShop.Managers
 {
     public class BaseDbManager
     {
-        private readonly IProductDbDao _productDbDao;
-        private readonly IProductCategoryDbDao _productCategoryDbDao;
-        private readonly ISupplierDbDao _sipplierDbDao;
         public string connectionString => ConfigurationManager.AppSettings["connectionString"];
 
-        public BaseDbManager(IProductDbDao productDbDao, IProductCategoryDbDao productCategoryDbDao, ISupplierDbDao sipplierDbDao)
+        public BaseDbManager()
         {
             EnsureConnectionSuccessful();
-            _productDbDao = productDbDao;
-            _productCategoryDbDao = productCategoryDbDao;
-            _sipplierDbDao = sipplierDbDao;
         }
 
         public void EnsureConnectionSuccessful() 
