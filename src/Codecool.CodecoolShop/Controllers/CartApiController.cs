@@ -3,8 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Codecool.CodecoolShop.Helpers;
 using Codecool.CodecoolShop.Models;
-using Codecool.CodecoolShop.Services;
-using Newtonsoft.Json;
+using Codecool.CodecoolShop.Managers;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -12,12 +11,12 @@ namespace Codecool.CodecoolShop.Controllers
     [Route("/api/cart/[action]")]
     public class CartApiController : Controller
     {
-        private readonly ProductService _productService;
+        private readonly ProductDbManager _productDbManager;
         private Cart _cart;
 
-        public CartApiController(ProductService productService, Cart cart)
+        public CartApiController(ProductDbManager productDbManager, Cart cart)
         {
-            _productService = productService;
+            _productDbManager = productDbManager;
             _cart = cart;
         }
 
@@ -35,7 +34,7 @@ namespace Codecool.CodecoolShop.Controllers
         [HttpGet("{id}")]
         public List<Item> Add(int id)
         {
-            var product = _productService.GetProductById(id);
+            var product = _productDbManager.GetProductById(id);
 
             if (IsProductInCart(product))
             {
@@ -54,7 +53,7 @@ namespace Codecool.CodecoolShop.Controllers
         [HttpGet("{id}")]
         public List<Item> Delete(int id)
         {
-            var product = _productService.GetProductById(id);
+            var product = _productDbManager.GetProductById(id);
             var item = FindItemInCart(product);
 
             if (item.Quantity > 1)
@@ -71,13 +70,13 @@ namespace Codecool.CodecoolShop.Controllers
 
         private bool IsProductInCart(Product product)
         {
-            var item = _cart.Items.Where(item => item.Product.Equals(product));
+            var item = _cart.Items.Where(item => item.Product.Id == product.Id);
             return item.Any();
         }
 
         private Item FindItemInCart(Product product)
         {
-            var item = _cart.Items.Find(item => item.Product.Equals(product));
+            var item = _cart.Items.Find(item => item.Product.Id == product.Id);
             return item;
         }
 

@@ -1,16 +1,19 @@
-﻿const modal = document.querySelector("#modal");
+﻿const modalWhole = document.querySelector("#modal");
 const modalBody = document.querySelector("#modal__body");
 const modalHead = document.querySelector("#modal__head");
 const productContent = document.querySelector("#product-cards");
 const categorySelect = document.querySelector("#select-category");
 const supplierSelect = document.querySelector("#select-supplier");
 const continueButton = document.querySelector("#continue-shopping");
+const headerCartButton = document.querySelector("#header-shopping-cart");
+let Items = 0;
 
 
 InIt()
 
 function InIt() {
     GetAllProducts()
+    GetShoppingCart();
     GetProductCategories()
     GetProductSuppliers()
     AddEventListenerToCategorySelect()
@@ -30,7 +33,6 @@ function AddEventListenerToSupplierSelect() {
 
 function GetSupplierDropdownMenuOptions(response) {
     for (let i = 0; i < response.length; i++) {
-        console.log(response)
         let option = document.createElement("option")
         option.value = response[i].id
         option.innerHTML = response[i].name
@@ -58,8 +60,8 @@ function AddEventListenerToCategorySelect() {
     });
 
     continueButton.addEventListener('click', () => {
-        modal.classList.toggle("hidden");
-        modal.classList.toggle("visible");
+        modalWhole.classList.add("hidden");
+        modalWhole.classList.remove("visible");
     });
 }
 
@@ -90,6 +92,7 @@ async function GetAllProducts() {
 }
 
 function PopulateContainer(response) {
+    Items = 0;
     productContent.innerHTML = "";
     for (let i = 0; i < response.length; i++) {
         let card = document.createElement("div")
@@ -108,7 +111,6 @@ function PopulateContainer(response) {
         cardDescription.classList.add("card-description");
         productDetails.classList.add("product-details");
 
-        //cardName.innerHTML = `Product ${i + 1}`;
         name.innerHTML = response[i].name;
         description.innerHTML = response[i].description;
         supplier.innerHTML = `Supplier: ${response[i].supplier.name}`;
@@ -157,6 +159,14 @@ function PopulateContainer(response) {
 
         productContent.appendChild(card)
     }
+
+    headerCartButton.dataset.itemCount = Items;
+
+    if (Items > 0) {
+        headerCartButton.classList.add("notification");
+    } else {
+        headerCartButton.classList.remove("notification");
+    }
 }
 
 async function AddToCart(id) {
@@ -164,7 +174,21 @@ async function AddToCart(id) {
     PopulateModalBody(result);
 }
 
+async function GetShoppingCart() {
+    let result = await ApiGet(`/api/cart/GetAll`);
+    PopulateModalBody(result);
+
+    headerCartButton.dataset.itemCount = Items;
+
+    if (Items > 0) {
+        headerCartButton.classList.add("notification");
+    } else {
+        headerCartButton.classList.remove("notification");
+    }
+}
+
 function PopulateModalBody(response) {
+    Items = 0;
     modalBody.innerHTML = "";
     modalHead.innerHTML = "Shopping cart";
     for (let item of response) {
@@ -190,8 +214,20 @@ function PopulateModalBody(response) {
         quantity.classList.add("modal__card-quantity");
         let total = document.createElement("span");
         total.classList.add("modal__card-total");
+        let deleteBtn = document.createElement("a");
 
-        image.src = `img/${item.product.image}`;
+        deleteBtn.innerHTML = "DELETE";
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.dataset.productId = item.product.id;
+        deleteBtn.addEventListener('click', async event => {
+            let id = event.currentTarget.dataset.productId;
+            let response = await ApiGet(`/api/cart/Delete/${id}`);
+            Items = 0;
+            Price = 0;
+            PopulateModalBody(response);
+        });
+
+        image.src = `../img/${item.product.image}`;
         name.innerHTML = item.product.name;
         price.innerHTML = `Price: ${item.product.defaultPrice}`;
         quantity.innerHTML = `Qty: ${item.quantity}`;
@@ -199,6 +235,7 @@ function PopulateModalBody(response) {
 
         countContainer.appendChild(price);
         countContainer.appendChild(quantity);
+        countContainer.appendChild(deleteBtn);
         counting.appendChild(countContainer);
         counting.appendChild(total);
         details.appendChild(name);
@@ -208,9 +245,21 @@ function PopulateModalBody(response) {
         card.appendChild(details);
         bodyContent.appendChild(card);
         modalBody.appendChild(bodyContent);
+
+        Items += item.quantity;
     }
-    modal.classList.toggle('hidden');
-    modal.classList.toggle('visible');
+
+    headerCartButton.dataset.itemCount = Items;
+    headerCartButton.addEventListener('click', () => {
+        modalWhole.classList.remove('hidden');
+        modalWhole.classList.add('visible');
+    })
+
+    if (Items > 0) {
+        headerCartButton.classList.add("notification");
+    } else {
+        headerCartButton.classList.remove("notification");
+    }
 }
 
 async function ApiGet(url) {

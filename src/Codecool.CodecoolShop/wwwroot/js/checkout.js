@@ -1,6 +1,7 @@
 ﻿const cartHead = document.querySelector("#cart__head");
 const cartBody = document.querySelector("#cart__body");
 const cartFooter = document.querySelector("#cart__footer");
+const headerCartButton = document.querySelector("#header-shopping-cart");
 let totalItems = document.createElement("span");
 let totalPrice = document.createElement("span");
 let Items = 0;
@@ -84,6 +85,14 @@ function PopulateCartBody(response) {
 
     cartFooter.appendChild(totalItems);
     cartFooter.appendChild(totalPrice);
+
+    headerCartButton.dataset.itemCount = Items;
+
+    if (Items > 0) {
+        headerCartButton.classList.add("notification");
+    } else {
+        headerCartButton.classList.remove("notification");
+    }
 }
 
 async function ApiGet(url) {

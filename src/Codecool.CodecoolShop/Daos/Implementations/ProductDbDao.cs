@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using Codecool.CodecoolShop.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public Product Get(int id)
         {
-            const string query = @"SELECT Product.name, Product.description, Product.players, Product.currency, Product.default_price, ProductCategory.name AS category, Supplier.name AS supplier, Product.image FROM Product
+            const string query = @"SELECT Product.id, Product.name, Product.description, Product.players, Product.currency, Product.default_price, ProductCategory.name AS category, Supplier.name AS supplier, Product.image FROM Product
                                     LEFT JOIN ProductCategory ON Product.product_category_id = ProductCategory.id
                                     LEFT JOIN Supplier ON Product.supplier_id = Supplier.id
                                     WHERE Product.id = @id";
@@ -79,13 +80,15 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     }
                     var name = reader.GetString("name");
                     var description = reader.GetString("description");
-                    var category = reader["category"] as ProductCategory;
-                    var supplier = reader["supplier"] as Supplier;
+                    var category = reader.GetString("category");
+                    ProductCategory productCategory = new ProductCategory() { Name = category };
+                    var supplierAsString = reader.GetString("supplier");
+                    Supplier productSupplier = new Supplier() { Name = supplierAsString };
                     var price = reader.GetDecimal("default_price");
                     var player = reader["players"] as string;
                     var currency = reader["currency"] as string;
                     var image = reader["image"] as string;
-                    var product = new Product() { Id = id, Name = name, Description = description, ProductCategory = category, Supplier = supplier, DefaultPrice = price, Players = player, Currency = currency, Image = image };
+                    var product = new Product() { Id = (int)reader["id"], Name = name, Description = description, ProductCategory = productCategory, Supplier = productSupplier, DefaultPrice = price, Players = player, Currency = currency, Image = image };
                     connection.Close();
                     return product;
                 }
