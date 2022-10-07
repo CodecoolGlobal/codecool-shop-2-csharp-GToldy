@@ -1,5 +1,5 @@
 CREATE TABLE Product (
-	id INT PRIMARY KEY,
+	id INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
 	name VARCHAR(50),
 	description NVARCHAR(MAX),
 	players VARCHAR(10),
@@ -11,19 +11,19 @@ CREATE TABLE Product (
 	);
 
 CREATE TABLE ProductCategory (
-	id INT PRIMARY KEY,
+	id INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
 	name VARCHAR(50),
 	description NVARCHAR(MAX)
 	);
 
 CREATE TABLE Supplier (
-	id INT PRIMARY KEY,
+	id INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
 	name VARCHAR(50),
 	description NVARCHAR(MAX)
 	);
 
 CREATE TABLE Item (
-	id INT PRIMARY KEY,
+	id INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
 	cart_id INT,
 	product_id INT,
 	quantity INT,
@@ -31,19 +31,19 @@ CREATE TABLE Item (
 	);
 
 CREATE TABLE Cart (
-	id INT PRIMARY KEY,
+	id INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
 	user_id INT
 	);
 
 CREATE TABLE Users (
-	id int PRIMARY KEY,
+	id INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
 	name varchar(20),
 	email varchar(30),
 	password varchar(50)
 );
 
 CREATE TABLE PersonalDetail (
-	id int,
+	id INT PRIMARY KEY NOT NULL IDENTITY(1, 1),
 	user_id int,
 	first_name varchar(15),
 	last_name varchar(15),
