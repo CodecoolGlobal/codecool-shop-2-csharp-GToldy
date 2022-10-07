@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Codecool.CodecoolShop.Models;
+﻿using Codecool.CodecoolShop.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using System;
