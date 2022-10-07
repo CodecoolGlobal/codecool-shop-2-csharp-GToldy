@@ -46,7 +46,7 @@ async function GetProductSuppliers() {
 }
 
 async function GetSupplierProductsContent(id) {
-    let response = await ApiGet(`/SupplierApi/GetProductBySupplier?id=${id}`);
+    let response = await ApiGet(`/SupplierApi/GetProductBySupplier/${id}`);
     PopulateContainer(response);
 }
 
@@ -66,7 +66,7 @@ function AddEventListenerToCategorySelect() {
 }
 
 async function GetProductsCategoryContent(id) {
-    let response = await ApiGet(`/CategoryApi/GetProducts?id=${id}`);
+    let response = await ApiGet(`/CategoryApi/GetProducts/${id}`);
     PopulateContainer(response);
 }
 
