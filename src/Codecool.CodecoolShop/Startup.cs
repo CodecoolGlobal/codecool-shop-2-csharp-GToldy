@@ -31,9 +31,12 @@ namespace Codecool.CodecoolShop
             var productDbDao = ProductDbDao.GetInstance(Configuration.GetValue<string>("ConnectionString"));
             var productCategoryDbDao = ProductCategoryDbDao.GetInstance(Configuration.GetValue<string>("ConnectionString"));
             var supplierDbDao = SupplierDbDao.GetInstance(Configuration.GetValue<string>("ConnectionString"));
+            var userDbDao = UserDbDao.GetInstance(Configuration.GetValue<string>("ConnectionString"));
             services.AddSingleton<IProductDbDao>(productDbDao);
-            services.AddSingleton<IProductCategoryDbDao>(productCategoryDbDao);
             services.AddSingleton<ISupplierDbDao>(supplierDbDao);
+            services.AddSingleton<IProductCategoryDbDao>(productCategoryDbDao);
+            services.AddSingleton<IUserDbDao>(userDbDao);
+            services.AddSingleton<UserDbManager>();
             services.AddSingleton<ProductDbManager>();
         }
 
