@@ -192,11 +192,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public IEnumerable<Product> GetByProductCategory(ProductCategory productCategory)
         {
-            int id = productCategory.Id;
             const string query = @"SELECT Product.id, Product.name, Product.description, Product.players, Product.currency, Product.default_price, ProductCategory.name AS category, Supplier.name AS supplier, Product.image FROM Product
                                     LEFT JOIN ProductCategory ON Product.product_category_id = ProductCategory.id
                                     LEFT JOIN Supplier ON Product.supplier_id = Supplier.id
-                                    WHERE Product.product_category_id = @id";
+                                    WHERE Product.product_category_id = @categoryId";
             try
             {
                 var results = new List<Product>();
@@ -205,7 +204,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     var cmd = new SqlCommand(query, connection);
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
-                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@categoryId", productCategory.Id);
                     var reader = cmd.ExecuteReader();
 
                     if (!reader.HasRows)
@@ -237,11 +236,12 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             }
         }
 
-        public IEnumerable<Product> GetByBoth(Supplier supplier, ProductCategory productCategory)
+        public IEnumerable<Product> GetBy(Supplier supplier, ProductCategory productCategory)
         {
-            int supplierId = supplier.Id;
-            int categoryId = productCategory.Id;
-            const string query = @"SELECT * FROM Product WHERE @product_category_id = categoryId AND @supplier_id = supplierId";
+            const string query = @"SELECT Product.id, Product.name, Product.description, Product.players, Product.currency, Product.default_price, ProductCategory.name AS category, Supplier.name AS supplier, Product.image FROM Product
+                                    LEFT JOIN ProductCategory ON Product.product_category_id = ProductCategory.id
+                                    LEFT JOIN Supplier ON Product.supplier_id = Supplier.id
+                                    WHERE Product.product_category_id = @categoryId AND Product.supplier_id = @supplierId";
             try
             {
                 var results = new List<Product>();
@@ -250,8 +250,8 @@ namespace Codecool.CodecoolShop.Daos.Implementations
                     var cmd = new SqlCommand(query, connection);
                     if (connection.State == ConnectionState.Closed)
                         connection.Open();
-                    cmd.Parameters.AddWithValue("@product_category_id", categoryId);
-                    cmd.Parameters.AddWithValue("@supplier_id", supplierId);
+                    cmd.Parameters.AddWithValue("@categoryId", productCategory.Id);
+                    cmd.Parameters.AddWithValue("@supplierId", supplier.Id);
                     var reader = cmd.ExecuteReader();
 
                     if (!reader.HasRows)
@@ -259,10 +259,17 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
                     while (reader.Read())
                     {
-                        var name = reader["name"] as string;
-                        var description = reader["description"] as string;
+                        var name = reader.GetString("name");
+                        var description = reader.GetString("description");
+                        var category = reader.GetString("category");
+                        ProductCategory newProductCategory = new ProductCategory() { Name = category };
+                        var supplierAsString = reader.GetString("supplier");
+                        Supplier productSupplier = new Supplier() { Name = supplierAsString };
+                        var price = reader.GetDecimal("default_price");
+                        var player = reader["players"] as string;
+                        var currency = reader["currency"] as string;
                         var image = reader["image"] as string;
-                        var product = new Product { Id = (int)reader["id"], Name = name, Description = description, Image = image };
+                        var product = new Product() { Id = (int)reader["id"], Name = name, Description = description, ProductCategory = newProductCategory, Supplier = productSupplier, DefaultPrice = price, Players = player, Currency = currency, Image = image };
                         results.Add(product);
                     }
                     connection.Close();
