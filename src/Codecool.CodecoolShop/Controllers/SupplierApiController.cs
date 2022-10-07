@@ -1,5 +1,4 @@
-﻿using Codecool.CodecoolShop.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Managers;
